@@ -19,10 +19,11 @@ const namespaces = require('./namespaces')
  *  - silly
  *
  * @param namespace {String} - Namespace to log. Useful to separate the debug messages by modules.
+ * @param options {Object} - Options to pass to winston logger.
  */
-module.exports = namespace => {
-  const enabled = namespaces.check(namespace)
-  const logger = new (winston.Logger)({
+module.exports = (namespace, options) => {
+  if (!options || typeof options !== 'object') options = {}
+  const baseOptions = {
     level: process.env.LOG_LEVEL || 'silly',
     transports: [new (winston.transports.Console)({
       timestamp: () => {
@@ -35,7 +36,9 @@ module.exports = namespace => {
         return `[${namespace}] ${options.timestamp()} - ${options.level.toUpperCase()}: ${options.message ? options.message : ''}${options.meta && Object.keys(options.meta).length ? '\n' + JSON.stringify(options.meta, null, 2) : ''}`
       }
     })]
-  })
+  }
+  const enabled = namespaces.check(namespace)
+  const logger = new (winston.Logger)({...baseOptions, ...options})
   return {
     error: (message, meta) => logger.error(message, meta),
     warn: (message, meta) => logger.warn(message, meta),
