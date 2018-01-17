@@ -4,12 +4,12 @@ module.exports = {
    */
   _populated: false,
   /**
-   * Populates the private data '_namespaces' as an array with the different namespaces from the LOGGER_NAMESPACES
+   * Populates the private data '_namespaces' as an array with the different namespaces from the LOG_NAMESPACES
    * environment variable. It splits the data with ',' as separator.
    * @private
    */
   _populate: function () {
-    let envString = process.env.LOGGER_NAMESPACES
+    let envString = process.env.LOG_NAMESPACES
     this._namespaces = envString ? envString.split(',') : []
     this._populated = true
   },

@@ -24,3 +24,34 @@ The logger came with its own formatter to show the namespace and the timestamp, 
 ``` js
 const logger = require('winston-namespace')('namespace', {level: 'info'})
 ```
+## Filter
+The debug and the silly mode can be disabled by modules. For example if you create a logger with the namespace
+`'server'` and another with the namespace `'app'`, in the `LOG_NAMESPACES` environment variable you can write
+`'server,app'` (separated by comma) to log both, only `'server'` if you don't want to see debug messages for the `'app'` module or only
+`'app'` to see the app's debug messages.
+It also has wildcards (`'*'`). For example you can write `'app:api,app:logic,app:controller'`,
+or only write `'app:*'` that will work for all the cases that are subspaces of `'app'`. Or in the case that you
+want to debug all you can write `LOG_NAMESPACES = *`.
+The level of the log is the same as winston and you can set it the in `LOG_LEVEL` env variable. It could be:
+ - error
+ - warn
+ - info
+ - debug
+ - silly
+
+ Example of filtering:
+ ``` js
+ const logger1 = require('winston-namespace')('app:api')
+ const logger2 = require('winston-namespace')('app:controller')
+ const logger3 = require('winston-namespace')('view')
+
+ process.env.LOG_NAMESPACES = 'app:*'
+ process.env.LOG_LEVEL = 'debug'
+
+ logger1.info('Testing info')
+// > [app:api] Date&Time - INFO: Testing info
+logger2.info('Testing info for controller.')
+// > [app:controller] Date&Time - INFO: Testing info for controller.
+logger1.silly('This message won\'t be shown.')
+logger3.info('This message won\'t be shown too.')
+ ```
