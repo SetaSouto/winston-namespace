@@ -1,7 +1,7 @@
 {
   "name": "winston-namespace",
   "version": "1.0.0",
-  "description": "Logger that use winston in the backend but adds a wrapper that uses 'namespaces' to filter logs.",
+  "description": "Logger that use winston in the backend but adds a wrapper that uses 'namespaces' to filter logs by modules.",
   "main": "index.js",
   "scripts": {
     "test": "node ./node_modules/mocha/bin/mocha"
@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/SetaSouto/winston-namespace.git"
   },
-  "author": "Fabián Souto Herrera",
+  "author": "Fabián Souto Herrera <fab.souto@gmail.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/SetaSouto/winston-namespace/issues"
